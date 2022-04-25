@@ -542,6 +542,12 @@ testing::AssertionResult l4_cap_obj_equal(char const *expr1, char const *expr2,
   #define TODO_AMD64(reason) do {} while(0)
 #endif
 
+#ifdef ARCH_riscv
+  #define TODO_RISCV(reason) TODO(reason)
+#else
+  #define TODO_RISCV(reason) do {} while(0)
+#endif
+
 /**
  * Add a SKIP directive adding `reason` as message.
  *
@@ -551,13 +557,15 @@ testing::AssertionResult l4_cap_obj_equal(char const *expr1, char const *expr2,
  do { this->RecordProperty("SKIP", reason); GTEST_SKIP(); } while (0)
 
 // Architecture bit specific SKIP macros
-#if defined(__mips) || defined(ARCH_arm) || defined(ARCH_x86)
+#if defined(__mips) || defined(ARCH_arm) || defined(ARCH_x86) \
+    || (defined (ARCH_riscv) && __riscv_xlen == 32)
   #define SKIP_ARCH_32(reason) SKIP(reason)
 #else
   #define SKIP_ARCH_32(reason) do {} while(0)
 #endif
 
-#if defined(__mips64) || defined(ARCH_arm64) || defined(ARCH_amd64)
+#if defined(__mips64) || defined(ARCH_arm64) || defined(ARCH_amd64) \
+    || (defined (ARCH_riscv) && __riscv_xlen == 64)
   #define SKIP_ARCH_64(reason) SKIP(reason)
 #else
   #define SKIP_ARCH_64(reason) do {} while(0)
@@ -592,4 +600,10 @@ testing::AssertionResult l4_cap_obj_equal(char const *expr1, char const *expr2,
   #define SKIP_AMD64(reason) SKIP(reason)
 #else
   #define SKIP_AMD64(reason) do {} while(0)
+#endif
+
+#ifdef ARCH_riscv
+  #define SKIP_RISCV(reason) SKIP(reason)
+#else
+  #define SKIP_RISCV(reason) do {} while(0)
 #endif
