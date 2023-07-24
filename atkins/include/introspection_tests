@@ -39,6 +39,8 @@
 #include <l4/atkins/tap/cmdline>
 #include <l4/atkins/tap/tap>
 
+#include <l4/util/util.h>
+
 namespace Atkins { namespace Kdump {
 
 
@@ -135,6 +137,7 @@ void Introspection_listener::OnTestEnd(testing::TestInfo const &test_info)
     return;
 
   Tap::Test_result result = Tap::Test_result(test_info, 0);
+  l4_sleep(10);   // Wait for a few RCU cycles
   lua_object_dump("testend");
   lua_check("eq(d['teststart'],d['testend'])");
   std::cout << std::endl << "@@ IntrospectionTesting[UUID]:" << result.uuid()
