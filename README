@@ -1,0 +1,10 @@
+Package providing tools for testing L4 applications.
+
+libgtest and libgmock are provided as the basic test libraries. They
+can be used in both host and target mode, making it possible to write
+both, functional tests and basic target-independent unit tests.
+The host versions are currently not build but can be enabled gmock/Makefile
+and gtest/Makefile, respectively.
+
+In addition, the /atkins directory contains utils and fixtures specifically
+for the L4Re environment.
