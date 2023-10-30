@@ -254,8 +254,8 @@ public:
 
   void terminate()
   {
-    _task.reset();
     _thread.reset();
+    _task.reset();
     _rm.reset();
   }
 
