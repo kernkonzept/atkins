@@ -61,8 +61,7 @@ public:
   : _startup_sem(
       Atkins::Factory::kobj<L4::Semaphore>("Emerge startup semaphore object.")),
     _thread(&Base_server_thread_t::thread_main, this),
-    server(std::L4::thread_utcb(_thread), std::L4::thread_cap(_thread),
-           L4Re::Env::env()->factory())
+    server(std::L4::thread_cap(_thread), L4Re::Env::env()->factory())
   {
     server.registry()->register_irq_obj(&_cancel);
     set_thread_name("atkins:svr_thread");

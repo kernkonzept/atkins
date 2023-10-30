@@ -116,7 +116,7 @@ gate_helper(Partner_info const &partner)
    *   .task    - true if test runs in seperate task
    */
   L4Re::Util::Registry_server<L4Re::Util::Br_manager_timeout_hooks>
-    server(l4_utcb(), Atkins::Thread_helper::this_thread_cap(),
+    server(Atkins::Thread_helper::this_thread_cap(),
            L4Re::Env::env()->factory());
   struct Null_handler dummy;
 
