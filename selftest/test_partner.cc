@@ -30,7 +30,7 @@ using Atkins::Ipc_helper::Default_test_timeout;
  */
 struct PartnerTest : public testing::TestWithParam<std::tuple<bool,bool>>
 {
-  void SetUp() override
+  void CheckCores()
   {
     std::tie(task, cross_cpu) = GetParam();
     if (cross_cpu && Partner::online_cores() < 2)
@@ -86,6 +86,8 @@ TEST_P(PartnerTest, Thread)
 {
   TAP_UUID("5e4dc11a-3cd4-41a8-a60a-d2a36cbb6b2e");
 
+  CheckCores();
+
   // Instantiate a partner object without a gate and start the partner
   Partner p;
   p.start(thread_helper_name, task, cross_cpu);
@@ -137,6 +139,8 @@ static Partner::Test_entry e1(gate_helper_name, gate_helper);
 TEST_P(PartnerTest, Gate)
 {
   TAP_UUID("52982c71-a429-4498-97bf-1d96e1c88441");
+
+  CheckCores();
 
   // Instantiate a partner object with a gate and start the partner
   Partner p(true);
