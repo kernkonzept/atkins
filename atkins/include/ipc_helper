@@ -26,29 +26,29 @@ namespace Atkins {
  */
 namespace Ipc_helper {
 
-static l4_timeout_t const Ipc_timeout_100ms =
+constexpr l4_timeout_t Ipc_timeout_100ms =
   l4_timeout(l4_timeout_from_us(100'000), l4_timeout_from_us(100'000));
-static l4_timeout_t const Ipc_timeout_500ms =
+constexpr l4_timeout_t Ipc_timeout_500ms =
   l4_timeout(l4_timeout_from_us(500'000), l4_timeout_from_us(500'000));
-static l4_timeout_t const Ipc_timeout_3s =
+constexpr l4_timeout_t Ipc_timeout_3s =
   l4_timeout(l4_timeout_from_us(3'000'000), l4_timeout_from_us(3'000'000));
-static l4_timeout_t const Ipc_timeout_5s =
+constexpr l4_timeout_t Ipc_timeout_5s =
   l4_timeout(l4_timeout_from_us(5'000'000), l4_timeout_from_us(5'000'000));
-static l4_timeout_t const Ipc_timeout_10s =
+constexpr l4_timeout_t Ipc_timeout_10s =
   l4_timeout(l4_timeout_from_us(10'000'000), l4_timeout_from_us(10'000'000));
-static l4_timeout_t const Ipc_timeout_20s =
+constexpr l4_timeout_t Ipc_timeout_20s =
   l4_timeout(l4_timeout_from_us(20'000'000), l4_timeout_from_us(20'000'000));
 
 /// Protect the test main thread from unexpected failure of the IPC partner.
-static l4_timeout_t const Default_test_timeout = Ipc_timeout_5s;
+constexpr l4_timeout_t Default_test_timeout = Ipc_timeout_5s;
 /// Double the default test timeout, e.g. for test bundle.
-static l4_timeout_t const Default_test_timeout_double = Ipc_timeout_10s;
+constexpr l4_timeout_t Default_test_timeout_double = Ipc_timeout_10s;
 /// Yet again increase the test timeout for tests with extensive logging.
-static l4_timeout_t const Default_test_timeout_tracing = Ipc_timeout_20s;
+constexpr l4_timeout_t Default_test_timeout_tracing = Ipc_timeout_20s;
 /// The callee is not expected to perform blocking computations before replying.
-static l4_timeout_t const Nonblocking_reply_timeout = Ipc_timeout_3s;
+constexpr l4_timeout_t Nonblocking_reply_timeout = Ipc_timeout_3s;
 /// The IPC is expected to fail, e.g. with a send or receive timeout.
-static l4_timeout_t const No_reply_timeout = Ipc_timeout_3s;
+constexpr l4_timeout_t No_reply_timeout = Ipc_timeout_3s;
 
 /**
  * Issue an IPC call to thread `to` with a message tag label `label`.
