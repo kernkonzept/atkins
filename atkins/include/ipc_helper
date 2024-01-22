@@ -27,17 +27,17 @@ namespace Atkins {
 namespace Ipc_helper {
 
 static l4_timeout_t const Ipc_timeout_100ms =
-  l4_timeout(l4_timeout_from_us(100000), l4_timeout_from_us(100000));
+  l4_timeout(l4_timeout_from_us(100'000), l4_timeout_from_us(100'000));
 static l4_timeout_t const Ipc_timeout_500ms =
-  l4_timeout(l4_timeout_from_us(500000), l4_timeout_from_us(500000));
+  l4_timeout(l4_timeout_from_us(500'000), l4_timeout_from_us(500'000));
 static l4_timeout_t const Ipc_timeout_3s =
-  l4_timeout(l4_timeout_from_us(3000000), l4_timeout_from_us(3000000));
+  l4_timeout(l4_timeout_from_us(3'000'000), l4_timeout_from_us(3'000'000));
 static l4_timeout_t const Ipc_timeout_5s =
-  l4_timeout(l4_timeout_from_us(5000000), l4_timeout_from_us(5000000));
+  l4_timeout(l4_timeout_from_us(5'000'000), l4_timeout_from_us(5'000'000));
 static l4_timeout_t const Ipc_timeout_10s =
-  l4_timeout(l4_timeout_from_us(10000000), l4_timeout_from_us(10000000));
+  l4_timeout(l4_timeout_from_us(10'000'000), l4_timeout_from_us(10'000'000));
 static l4_timeout_t const Ipc_timeout_20s =
-  l4_timeout(l4_timeout_from_us(20000000), l4_timeout_from_us(20000000));
+  l4_timeout(l4_timeout_from_us(20'000'000), l4_timeout_from_us(20'000'000));
 
 /// Protect the test main thread from unexpected failure of the IPC partner.
 static l4_timeout_t const Default_test_timeout = Ipc_timeout_5s;
