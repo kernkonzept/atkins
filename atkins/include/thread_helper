@@ -238,14 +238,23 @@ online_cores(l4_sched_cpu_set_t cs)
 inline unsigned
 online_cores()
 {
-  l4_sched_cpu_set_t cs = l4_sched_cpu_set(0, 0);
-  l4_umword_t max_cpus = 0;
-  if (long err = l4_error(L4Re::Env::env()->scheduler()->info(&max_cpus, &cs)))
+  l4_umword_t max_cpus = ~0UL;
+  unsigned online_cpus = 0U;
+  enum { Bits_per_mword = 8 * sizeof(l4_umword_t) };
+  for (l4_umword_t offs = 0; offs < max_cpus; offs += Bits_per_mword)
     {
-      Dbg().printf("Error %li while request scheduling information.", err);
-      return 1;
+      l4_sched_cpu_set_t cs = l4_sched_cpu_set(offs, 0);
+      if (long err = l4_error(L4Re::Env::env()->scheduler()->info(&max_cpus,
+                                                                  &cs)))
+        {
+          Dbg().printf("Error %li while request scheduling information.", err);
+          return 1;
+        }
+
+      online_cpus += online_cores(cs);
     }
-  return online_cores(cs);
+
+  return online_cpus;
 }
 
 /**
