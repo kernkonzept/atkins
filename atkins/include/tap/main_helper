@@ -323,7 +323,7 @@ public:
                      "Wait for termination permission");
       }
     else
-      Dbg().printf("Missing semaphore '%s', unable to synchonize exit.\n",
+      Dbg().printf("Missing semaphore '%s', unable to synchronize exit.\n",
                    _exit_sem_cap_name);
   }
 
