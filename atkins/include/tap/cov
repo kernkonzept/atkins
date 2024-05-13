@@ -24,11 +24,6 @@ class Cov_listener : public ::testing::EmptyTestEventListener
 public:
   virtual void OnTestProgramEnd(testing::UnitTest const &)
   {
-    // Call the debug interface with a send timeout. This makes
-    // sure if there is no receiver it will not hang forever.
-    l4_timeout_t const Ipc_cov_timeout =
-      l4_timeout(l4_timeout_from_us(100000), {0});
-
     Atkins::Dbg trace{Atkins::Dbg::Trace, "coverage"};
     // print kernel cov info
     auto jdb = L4Re::Env::env()->get_cap<void>("jdb");
