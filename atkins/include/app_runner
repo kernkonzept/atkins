@@ -117,10 +117,22 @@ public:
 
   Dataspace alloc_ds(unsigned long size) const
   {
+    return alloc_ds(size, 0, 0);
+  }
+
+  Dataspace alloc_ds(unsigned long size, l4_addr_t paddr) const
+  {
+    return alloc_ds(size, paddr, L4Re::Mem_alloc::Fixed_paddr);
+  }
+
+  Dataspace alloc_ds(unsigned long size, l4_addr_t paddr, unsigned long flags)
+    const
+  {
     auto mem = L4Re::chkcap(L4Re::Util::make_shared_cap<L4Re::Dataspace>(),
                            "Allocate dataspace capability.");
 
-    L4Re::chksys(L4Re::Env::env()->mem_alloc()->alloc(size, mem.get()),
+    L4Re::chksys(L4Re::Env::env()->mem_alloc()
+                 ->alloc(size, mem.get(), flags, 0, paddr),
                  "Allocate memory for application.");
 
     return mem;
@@ -182,7 +194,7 @@ public:
 
     L4Re::chksys(_rm->attach(&addr, size, rh_flags,
                              L4::Ipc::make_cap(ds.get(), flags.cap_rights()),
-                             offset, 0), what);
+                             offset, 0, _task.get()), what);
   }
 
   void prog_attach_ds(l4_addr_t addr, unsigned long size,
