@@ -305,18 +305,20 @@ private:
   std::unordered_map<char, Callback_help_t<std::string>> flag_registry;
   std::unordered_map<int, Callback_help_t<struct option>> opt_registry;
 
-  /// Counter for the option.val values to not collide with flag values.
-  struct {
-      int val = Option_value_counter_start;
-      int next()
-      {
-        if (val < INT_MAX)
-          return ++val;
+  // Counter for the option.val values to not collide with flag values.
+  struct Val_counter
+  {
+    int val = Option_value_counter_start;
+    int next()
+    {
+      if (val < INT_MAX)
+        return ++val;
 
-        L4Re::throw_error(-L4_ERANGE,
-                          "Atkins command line option registry overflow.");
-      }
-  } val_counter;
+      L4Re::throw_error(-L4_ERANGE,
+                        "Atkins command line option registry overflow.");
+    }
+  };
+  Val_counter val_counter;
 
   unsigned _verbosity = 1;
   bool print_help = false;
