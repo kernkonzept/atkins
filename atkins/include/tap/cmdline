@@ -28,14 +28,24 @@
 
 namespace Atkins { namespace Cmdline {
 
-static void reboot()
+static void pfc_call(int arg)
 {
   auto pfc = L4Re::Env::env()->get_cap<L4::Platform_control>("pfc");
   if (!pfc.is_valid())
     pfc = L4Re::Env::env()->get_cap<L4::Platform_control>("icu");
 
   if (pfc.is_valid())
-    pfc->system_shutdown(1);
+    pfc->system_shutdown(arg);
+}
+
+static void reboot()
+{
+  pfc_call(1);
+}
+
+static void shutdown()
+{
+  pfc_call(0);
 }
 
 /**
@@ -73,6 +83,11 @@ public:
                    'b', No_arg, [](char const *) { atexit(reboot); },
                    "Initiate an automatic reboot after test termination."),
                  "Cannot register 'b' flag with cmdline");
+
+    L4Re::chksys(register_option(
+                   "shutdown", No_arg, [](char const *) { atexit(shutdown); },
+                   "Initiate an automatic shutdown after test termination."),
+                 "Cannot register 'shutdown' flag with cmdline");
 
     L4Re::chksys(register_flag(
                    'h', No_arg, [this](char const *) { print_help = true; },

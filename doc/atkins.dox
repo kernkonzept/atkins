@@ -26,6 +26,9 @@
  *    effect. If the test aborts before the main function is reached (e.g.
  *    through the ned script) or if the test does no terminate the system will
  *    also not reboot.
+ *  + `--shutdown` like `-b`, but triggers a shutdown instead.
+ *
+ * BE AWARE: using `-b` and `--shutdown` simultaneously is undefined behaviour.
  *
  * Test specific command line arguments
  * ------------------------------------
