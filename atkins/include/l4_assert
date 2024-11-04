@@ -488,19 +488,9 @@ testing::AssertionResult l4_cap_obj_equal(char const *expr1, char const *expr2,
   this->RecordProperty("Test-component3", comp); \
   this->RecordProperty("Test-function3", func)
 
-#define TAP_TBI() \
-  this->RecordProperty("Test-l4re-to-be-implemented", "1")
-
 /// Record the UUID of the test.
 #define TAP_UUID(uuid) \
   do { this->RecordProperty("Test-uuid", uuid); } while (0)
-
-/**
- * Add a TODO directive with 'to be implemented' and fail the
- * test immediately.
- */
-#define TO_BE_IMPLEMENTED() \
- do { this->RecordProperty("Comment", "TODO test not yet implemented"); TAP_TBI(); FAIL(); } while (0)
 
 /**
  * Add a TODO directive adding `reason` as message.
