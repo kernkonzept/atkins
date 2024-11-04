@@ -607,3 +607,10 @@ testing::AssertionResult l4_cap_obj_equal(char const *expr1, char const *expr2,
 #else
   #define SKIP_RISCV(reason) do {} while(0)
 #endif
+
+// MMU-specific SKIP macros
+#ifdef CONFIG_MMU
+  #define SKIP_NOMMU(reason) do {} while(0)
+#else
+  #define SKIP_NOMMU(reason) SKIP(reason)
+#endif
