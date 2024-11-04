@@ -548,6 +548,13 @@ testing::AssertionResult l4_cap_obj_equal(char const *expr1, char const *expr2,
   #define TODO_RISCV(reason) do {} while(0)
 #endif
 
+// MMU-specific TODO macros
+#ifdef CONFIG_MMU
+  #define TODO_NOMMU(reason) do {} while(0)
+#else
+  #define TODO_NOMMU(reason) TODO(reason)
+#endif
+
 /**
  * Add a SKIP directive adding `reason` as message.
  *
