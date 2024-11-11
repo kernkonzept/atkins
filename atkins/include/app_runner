@@ -79,8 +79,8 @@ public:
     // Show warnings from the child, in particular from the region mapper.
     // See also the corresponding Ned default setting.
     //
-    // L4Re kernel uses different defines for the debug levels, see
-    // l4re-core/l4re_kernel/server/src/debug.h. Since there is no
+    // L4Re ITAS uses different defines for the debug levels, see
+    // l4re-core/l4re_itas/server/src/debug.h. Since there is no
     // include files for theses defines we have to keep them in sync
     // manually.
     _info.l4re_dbg = 2;

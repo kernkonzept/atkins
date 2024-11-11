@@ -204,7 +204,7 @@ public:
    */
   void scan_l4re_aux(int argc, char **argv)
   {
-    // Taken from L4Re_kernel/Init_globals::init() and Ned/run().
+    // Taken from l4re_itas/server/src/globals.cc:Global::init() and Ned/run().
     l4_umword_t *auxp = (l4_umword_t*)&argv[argc] + 1;
     while (*auxp)
       ++auxp;
