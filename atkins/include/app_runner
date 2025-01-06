@@ -117,22 +117,27 @@ public:
 
   Dataspace alloc_ds(unsigned long size) const
   {
-    return alloc_ds(size, 0, 0);
+    return alloc_ds(size, 0, 0, 0);
   }
 
   Dataspace alloc_ds(unsigned long size, l4_addr_t paddr) const
   {
-    return alloc_ds(size, paddr, L4Re::Mem_alloc::Fixed_paddr);
+    return alloc_ds(size, paddr, L4Re::Mem_alloc::Fixed_paddr, 0);
   }
 
-  Dataspace alloc_ds(unsigned long size, l4_addr_t paddr, unsigned long flags)
-    const
+  Dataspace alloc_ds_aligned(unsigned long size, unsigned align) const
+  {
+    return alloc_ds(size, 0, 0, align);
+  }
+
+  Dataspace alloc_ds(unsigned long size, l4_addr_t paddr, unsigned long flags,
+                     unsigned align) const
   {
     auto mem = L4Re::chkcap(L4Re::Util::make_shared_cap<L4Re::Dataspace>(),
                            "Allocate dataspace capability.");
 
     L4Re::chksys(L4Re::Env::env()->mem_alloc()
-                 ->alloc(size, mem.get(), flags, 0, paddr),
+                 ->alloc(size, mem.get(), flags, align, paddr),
                  "Allocate memory for application.");
 
     return mem;
@@ -533,6 +538,13 @@ public:
         if (!argv.a0)
           argv.a0 = argv.al;
       }
+  }
+
+  void ds_map_info(Const_dataspace ds, l4_addr_t *start)
+  {
+    l4_addr_t unused_end;
+    L4Re::chksys(ds->map_info(start, &unused_end),
+                 "Atkins::App_runner::ds_map_info");
   }
 
 private:
