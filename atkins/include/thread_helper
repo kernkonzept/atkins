@@ -231,9 +231,10 @@ online_cores(l4_sched_cpu_set_t cs)
 }
 
 /**
- * Compute the number of online cores
+ * Return the current number of online cores as reported by the scheduler
+ * (either kernel or scheduler proxy).
  *
- * \return Number of cores in `cs`.
+ * \return Number of cores.
  */
 inline unsigned
 online_cores()
