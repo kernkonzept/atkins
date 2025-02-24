@@ -154,6 +154,10 @@ public:
                  "Attach stack to virtual memory.");
 
     _stack.set_local_top(_stack_region.get() + sz);
+#ifndef CONFIG_MMU
+    _stack.set_target_stack(reinterpret_cast<l4_addr_t>(_stack_region.get()),
+                            sz);
+#endif
 
     return _stack_ds;
   }
