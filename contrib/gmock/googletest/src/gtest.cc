@@ -112,6 +112,7 @@
 # include <stdexcept>
 # if GTEST_OS_L4RE
 #   include <l4/cxx/exceptions>
+#   include <l4/sys/kdebug.h>
 # endif
 #endif
 
@@ -4825,6 +4826,13 @@ void UnitTest::AddTestPartResult(
       // when a failure happens and both the --gtest_break_on_failure and
       // the --gtest_catch_exceptions flags are specified.
       DebugBreak();
+#elif GTEST_OS_L4RE
+      const ::testing::TestInfo* const test_info = impl_->current_test_info();
+      printf("Assertion failed in %s::%s\n%s:%d.\n%s\n",
+             test_info->test_suite_name(), test_info->name(),
+             file_name, line_number,
+             msg.GetString().c_str());
+      enter_kdebug("ATKINS_ASSERT_KDEBUG");
 #elif (!defined(__native_client__)) &&            \
     ((defined(__clang__) || defined(__GNUC__)) && \
      (defined(__x86_64__) || defined(__i386__)))
