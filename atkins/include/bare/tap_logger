@@ -124,7 +124,7 @@ public:
     ++_done;
     ++_failed;
 
-    L4::cout << "not ok TODO " << msg << '\n';
+    L4::cout << "not ok " << msg << " #TODO" << '\n';
   }
 
   void uuid(char const *msg)
