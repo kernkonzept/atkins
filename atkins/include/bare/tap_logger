@@ -106,7 +106,7 @@ public:
         L4::cout << "not ";
       }
 
-    L4::cout << "ok " << _done << " " << msg << '\n';
+    L4::cout << "ok " << msg << '\n';
     if (_uuid)
       L4::cout << "# Test-uuid: " << _uuid << '\n';
   }
@@ -124,7 +124,7 @@ public:
     ++_done;
     ++_failed;
 
-    L4::cout << "not ok " << _done << " TODO " << msg << '\n';
+    L4::cout << "not ok TODO " << msg << '\n';
   }
 
   void uuid(char const *msg)
