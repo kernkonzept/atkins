@@ -21,6 +21,7 @@
 #include <l4/atkins/app_runner>
 #include <l4/re/util/icu_svr>
 #include <l4/re/util/vcon_svr>
+#include <l4/atkins/tap/cov>
 
 #include <gtest/gtest.h>
 
@@ -124,6 +125,13 @@ public:
 
     printf("BUNDLE TEST EXPECT TEST COUNT %zi\n", repeat * test_names.size());
     printf("BUNDLE TEST FINISH\n");
+
+    // We cannot add the Cov_listener earlier because it is only supposed to be
+    // run in the outer loop. And we invoke it manually because it cannot be
+    // appended to the listeners anymore.
+    Atkins::Cov::Cov_listener c;
+    c.OnTestProgramEnd(instance);
+
     exit(0);
   }
 
