@@ -15,6 +15,7 @@
 #include <l4/atkins/l4_assert>
 #include <l4/atkins/tap/cmdline>
 #include <l4/atkins/tap/tap>
+#include <l4/atkins/tap/cov>
 #include <l4/re/env>
 
 #include <make_unique-l4>
@@ -110,6 +111,8 @@ main(int argc, char **argv)
   cmdline()->parse(argc, argv);
 
   Dbg(Dbg::Info).printf("Parsed options Atkins\n");
+
+  listeners.Append(new Atkins::Cov::Cov_listener());
 
   l4_debugger_set_object_name(L4Re::Env::env()->main_thread().cap(),
                               "custom_main");
