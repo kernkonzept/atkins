@@ -24,6 +24,7 @@
 #include <l4/atkins/introspection_tests>
 #include <l4/atkins/tap/cmdline>
 #include <l4/atkins/tap/tap>
+#include <l4/atkins/tap/cov>
 #include <l4/re/env>
 #include <l4/sys/semaphore>
 #include <l4/sys/debugger.h>
@@ -680,6 +681,8 @@ main(int argc, char **argv)
 
   if (cmdline()->help())
     return 0;
+
+  listeners.Append(new Atkins::Cov::Cov_listener());
 
   // Set name of test image for later use in App_runner
   Atkins::Partner::set_app_name(argv[0]);
