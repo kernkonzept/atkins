@@ -194,7 +194,9 @@ public:
 
   void prog_attach_ds(l4_addr_t addr, unsigned long size,
                       Const_dataspace ds, unsigned long offset,
-                      L4Re::Rm::Flags flags, char const *what)
+                      L4Re::Rm::Flags flags,
+                      char const *name, unsigned long file_offset,
+                      char const *what)
   {
     auto rh_flags = flags;
 
@@ -203,18 +205,22 @@ public:
 
     L4Re::chksys(_rm->attach(&addr, size, rh_flags,
                              L4::Ipc::make_cap(ds.get(), flags.cap_rights()),
-                             offset, 0, _task.get()), what);
+                             offset, L4_PAGESHIFT, _task.get(),
+                             name, file_offset), what);
   }
 
   void prog_attach_ds(l4_addr_t addr, unsigned long size,
                       L4::Cap<L4Re::Dataspace> ds, unsigned long offset,
-                      L4Re::Rm::Flags flags, char const *what)
+                      L4Re::Rm::Flags flags,
+                      char const *name, unsigned long file_offset,
+                      char const *what)
   {
     L4Re::chkcap(ds, what);
 
     L4Re::chksys(_rm->attach(&addr, size, flags,
                              L4::Ipc::make_cap(ds, flags.cap_rights()),
-                             offset, 0), what);
+                             offset, L4_PAGESHIFT, L4::Cap<L4::Task>::Invalid,
+                             name, file_offset), what);
   }
 
 
