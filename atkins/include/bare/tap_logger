@@ -127,6 +127,22 @@ public:
     L4::cout << "not ok " << msg << " #TODO" << '\n';
   }
 
+  /**
+   * Print a TAP SKIP message.
+   *
+   * \param msg  Message to print.
+   *
+   * The function increases the test count.
+   */
+  void tap_skip(char const *msg)
+  {
+    ++_done;
+
+    L4::cout << "ok # SKIP " << msg << '\n';
+    if (_uuid)
+      L4::cout << "# Test-uuid: " << _uuid << '\n';
+  }
+
   void uuid(char const *msg)
   { _uuid = msg; }
 
