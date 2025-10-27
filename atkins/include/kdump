@@ -49,7 +49,7 @@ dump_obj_mappings(char const *tag) L4_NOTHROW
 
   std::string cmd = cmd_start + tag_s.substr(0, tag_len) + cmd_end;
 
-  return __kdebug_text(L4_KDEBUG_ENTER, cmd.c_str(), cmd.length() + 1);
+  return __l4_kdebug_text(L4_KDEBUG_ENTER, cmd.c_str(), cmd.length() + 1);
 }
 
 }} // namespace Atkins::Kdump

@@ -4834,7 +4834,7 @@ void UnitTest::AddTestPartResult(
              test_info->test_suite_name(), test_info->name(),
              file_name, line_number,
              msg.GetString().c_str());
-      enter_kdebug("ATKINS_ASSERT_KDEBUG");
+      l4_kd_enter("ATKINS_ASSERT_KDEBUG");
 #elif (!defined(__native_client__)) &&            \
     ((defined(__clang__) || defined(__GNUC__)) && \
      (defined(__x86_64__) || defined(__i386__)))
