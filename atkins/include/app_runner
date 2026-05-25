@@ -390,7 +390,7 @@ public:
    * been started.
    */
   void add_initial_cap(std::string const &name, L4::Cap<void> cap,
-                       unsigned rights = L4_FPAGE_RO)
+                       unsigned rights = L4_CAP_FPAGE_RO)
   {
     if (!L4Re::Env::Cap_entry::is_valid_name(name.c_str()))
       L4Re::chksys(-L4_EINVAL, "The capability name is valid");
