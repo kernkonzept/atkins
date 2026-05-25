@@ -116,6 +116,16 @@ public:
             for (int i = 1; i < _argc; ++i)
               test.append_cmdline(_argv[i]);
 
+            // Forward all named caps. There should be no difference between
+            // single and bundle tests.
+            for (auto *c = L4Re::Env::env()->initial_caps(); *c; ++c)
+              {
+                cxx::String name = c->get_name();
+                test.add_initial_cap(std::string(name.start(), name.len()),
+                                     L4::Cap<void>(c->cap),
+                                     L4_CAP_FPAGE_RWSD | L4_FPAGE_C_OBJ_RIGHTS);
+              }
+
             test.exec();
             L4Re::chksys(test.wait_for_exit(
                            Atkins::Ipc_helper::Default_test_timeout_double),
