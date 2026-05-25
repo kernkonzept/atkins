@@ -322,7 +322,7 @@ class App_runner
     L4::Cap<void> cap;
     unsigned rights;
 
-    Cap_entry(char const *n, L4::Cap<void> c, unsigned r)
+    Cap_entry(std::string const &n, L4::Cap<void> c, unsigned r)
     : name(n), cap(c), rights(r)
     {}
   };
@@ -389,10 +389,10 @@ public:
    * This function has only an effect as long as the application has not
    * been started.
    */
-  void add_initial_cap(char const *name, L4::Cap<void> cap,
+  void add_initial_cap(std::string const &name, L4::Cap<void> cap,
                        unsigned rights = L4_FPAGE_RO)
   {
-    if (!L4Re::Env::Cap_entry::is_valid_name(name))
+    if (!L4Re::Env::Cap_entry::is_valid_name(name.c_str()))
       L4Re::chksys(-L4_EINVAL, "The capability name is valid");
     _exported_caps.emplace_back(name, cap, rights);
   }
@@ -410,7 +410,7 @@ public:
    * This function only has an effect as long as the application has not
    * been started.
    */
-  void remove_initial_cap(char const *name)
+  void remove_initial_cap(std::string const &name)
   {
     auto it = std::remove_if(_exported_caps.begin(), _exported_caps.end(),
                              [&](Cap_entry e) { return e.name == name; });
