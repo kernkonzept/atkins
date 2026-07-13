@@ -492,6 +492,14 @@ testing::AssertionResult l4_cap_obj_equal(char const *expr1, char const *expr2,
 #define TAP_UUID(uuid) \
   do { this->RecordProperty("Test-uuid", uuid); } while (0)
 
+/// Record this test is for a race condition
+#define TAP_SET_RACY() \
+  do { this->RecordProperty("Test-is-racy", "1"); } while (0)
+
+/// Record this test hit the race condition
+#define TAP_HIT_RACE(true_false) \
+  do { this->RecordProperty("Test-hit-race", true_false); } while (0)
+
 /**
  * Add a TODO directive adding `reason` as message.
  *

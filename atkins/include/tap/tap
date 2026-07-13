@@ -30,6 +30,8 @@ private:
   std::string _comment;
   std::string _details;
   std::string _uuid;
+  std::string _test_is_racy;
+  std::string _test_hit_race;
   std::vector< std::pair<std::string, std::string> > _props;
   bool _status;
   unsigned _exec_order_num;
@@ -71,6 +73,14 @@ public:
             else
               printf("UUID already set to %s. Ignoring %s\n", _uuid.c_str(),
                      prop.value());
+          }
+        else if (strcmp("Test-is-racy", prop.key()) == 0)
+          {
+            _test_is_racy = prop.value();
+          }
+        else if (strcmp("Test-hit-race", prop.key()) == 0)
+          {
+            _test_hit_race = prop.value();
           }
         else
           _props.emplace_back(prop.key(), prop.value());
@@ -162,6 +172,12 @@ public:
 
     if (!_uuid.empty())
       ss << "\n#    Test-uuid: " << _uuid;
+
+    if (!_test_is_racy.empty())
+      ss << "\n#    Test-is-racy: " << _test_is_racy;
+
+    if (!_test_hit_race.empty())
+      ss << "\n#    Test-hit-race: " << _test_hit_race;
 
     ss << _details;
 
