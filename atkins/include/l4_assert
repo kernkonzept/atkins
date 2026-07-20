@@ -116,11 +116,13 @@ inline
 testing::AssertionResult is_l4_cap_valid(char const *expr, l4_cap_idx_t cap);
 
 /**
- * Returns success if the capability `cap` is present.
+ * Returns success if the presence of `cap` matches `EXPECTED`.
  *
- * \tparam EXPECTED  True, if `cap` is expected to be present.
- *                   False, if `cap` is not present or the cap slot is invalid.
+ * \tparam EXPECTED  True, if `cap` is expected to be present.<br/>
+ *                   False, if `cap` is expected to be not present.
  * \tparam T         A capability type, i.e. L4::Task, L4::Irq, ... .
+ *
+ * The assertion fails if `cap` is invalid (see L4::Cap::is_valid()).
  *
  * \see \ref l4re_concepts_naming
  */
@@ -130,8 +132,10 @@ testing::AssertionResult l4_cap_present(char const *expr, L4::Cap<T> cap);
 /**
  * \copybrief l4_cap_present
  *
- * \tparam EXPECTED  True, if `cap` is expected to be present.
- *                   False, if `cap` is not present or the cap slot is invalid.
+ * \tparam EXPECTED  True, if `cap` is expected to be present.<br/>
+ *                   False, if `cap` is expected to be not present.
+ *
+ * The assertion fails if `cap` is invalid (see L4::Cap::is_valid()).
  *
  * \see \ref l4re_concepts_naming
  */
