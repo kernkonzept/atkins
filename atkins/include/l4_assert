@@ -104,7 +104,7 @@ inline testing::AssertionResult is_any_l4_err(char const *expr, long e);
 inline testing::AssertionResult is_any_l4_err(char const *expr, l4_msgtag_t msg);
 
 /**
- * Returns success if the capability slot `cap` is valid.
+ * Returns success if the L4::Cap `cap` is valid.
  *
  * \tparam T  A capability type, i.e. L4::Task, L4::Irq, ... .
  */
