@@ -81,7 +81,7 @@ public:
     //
     // L4Re ITAS uses different defines for the debug levels, see
     // l4re-core/l4re_itas/server/src/debug.h. Since there is no
-    // include files for theses defines we have to keep them in sync
+    // include files for these defines we have to keep them in sync
     // manually.
     _info.l4re_dbg = 2;
     _info.ldr_flags = 0;
