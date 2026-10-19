@@ -63,23 +63,30 @@ public:
    * Print a test result in TAP format and continue.
    *
    * \param success  Result of the test.
-   * \param msg      Message to print in case of failure.
+   * \param tapdesc  One or more parameters that are concatenated to a
+   *                 TAP description (aka test name)
    */
-  void expect(bool success, char const *msg) { tap_msg(success, msg); }
+  template <typename... T>
+  void expect(bool success, T... tapdesc)
+  {
+    tap_msg(success, tapdesc...);
+  }
 
   /**
    * Print test result in TAP format and exit immediately on failure.
    *
    * \param success  Result of the test.
-   * \param msg      Message to print in case of failure.
+   * \param tapdesc  One or more parameters that are concatenated to a
+   *                 TAP description (aka test name)
    *
    * When `success` is false, then `finish()` is called and the program
    * exists with a return code that corresponds to the number of failed
    * tests.
    */
-  void assert(bool success, char const *msg)
+  template <typename... T>
+  void assert(bool success, T... tapdesc)
   {
-    tap_msg(success, msg);
+    tap_msg(success, tapdesc...);
 
     if (!success)
       {
@@ -92,12 +99,14 @@ public:
    * Print test result in TAP format.
    *
    * \param success  Result of the test.
-   * \param msg      Message to print in case of failure.
+   * \param tapdesc  One or more parameters that are concatenated to a
+   *                 TAP description (aka test name)
    *
    * The function increases the test count and in case of failure also the
    * failure count.
    */
-  void tap_msg(bool success, char const *msg)
+  template <typename... T>
+  void tap_msg(bool success, T... tapdesc)
   {
     ++_done;
     if (!success)
@@ -106,7 +115,9 @@ public:
         L4::cout << "not ";
       }
 
-    L4::cout << "ok " << msg << '\n';
+    L4::cout << "ok ";
+    print_pack(L4::cout, tapdesc...);
+    L4::cout << '\n';
     if (_uuid)
       L4::cout << "# Test-uuid: " << _uuid << '\n';
   }
@@ -114,39 +125,64 @@ public:
   /**
    * Print a TAP TODO message.
    *
-   * \param msg  Message to print.
+   * \param msg      TAP explanation (aka TODO reason)
+   * \param tapdesc  One or more parameters that are concatenated to a
+   *                 TAP description (aka test name)
    *
    * A TODO test is always considered a failure. The test count and failure
    * count are increased accordingly.
    */
-  void tap_todo(char const *msg)
+  template <typename... T>
+  void tap_todo(char const *msg, T... tapdesc)
   {
-    ++_done;
-    ++_failed;
-
-    L4::cout << "not ok " << msg << " #TODO" << '\n';
+    tap_msg(false, tapdesc..., " #TODO ", msg);
   }
 
   /**
    * Print a TAP SKIP message.
    *
-   * \param msg  Message to print.
+   * \param msg      TAP explanation (aka SKIP reason)
+   * \param tapdesc  One or more parameters that are concatenated to a
+   *                 TAP description (aka test name)
    *
    * The function increases the test count.
    */
-  void tap_skip(char const *msg)
+  template <typename... T>
+  void tap_skip(char const *msg, T... tapdesc)
   {
-    ++_done;
-
-    L4::cout << "ok # SKIP " << msg << '\n';
-    if (_uuid)
-      L4::cout << "# Test-uuid: " << _uuid << '\n';
+    tap_msg(true, tapdesc..., " #SKIP ", msg);
   }
 
   void uuid(char const *msg)
   { _uuid = msg; }
 
 private:
+  /**
+   * Helper for putting variadic template arguments into one stream
+   *
+   * \param out      output stream, e.g. cout
+   * \param t        First element to put into stream
+   * \param params   More elements to put into stream
+   */
+  template <typename Out, typename T, typename... Args>
+  inline void
+  print_pack(Out out, T t, Args... params)
+  {
+    out << t;
+    print_pack(out, params...);
+  }
+
+  /**
+   * Helper for putting variadic template arguments into one stream
+   *
+   * \param out      output stream, e.g. cout
+   * \param t        Single element to put into stream
+   */
+  template <typename Out, typename T>
+  inline void
+  print_pack(Out out, T t)
+  { out << t; }
+
   int _done = 0;
   int _failed = 0;
   char const *_uuid = nullptr;
