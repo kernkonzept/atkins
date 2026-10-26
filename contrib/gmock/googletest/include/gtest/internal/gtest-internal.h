@@ -1365,7 +1365,7 @@ constexpr bool is_prefix_string(char const *prefix, char const *str)
 
 #define GTEST_L4RE_RECORD_FILE_NAME(x)\
   do { \
-    if (sizeof(L4RE_ABS_SOURCE_DIR_PATH) < sizeof(x) \
+    if constexpr (sizeof(L4RE_ABS_SOURCE_DIR_PATH) < sizeof(x) \
                && ::testing::internal::is_prefix_string(L4RE_ABS_SOURCE_DIR_PATH, x)) \
       this->RecordProperty("Test-source-file-name", \
                            ((x ":" GTEST_L4RE_STRINGIFY(__LINE__)) \
