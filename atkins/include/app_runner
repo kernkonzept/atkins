@@ -60,14 +60,14 @@ public:
   virtual ~L4re_app_model() = default;
 
   L4re_app_model()
-  : _task(L4Re::chkcap(L4Re::Util::cap_alloc.alloc<L4::Task>(),
-                       "Allocate task capability for new application.")),
-    _thread(L4Re::chkcap(L4Re::Util::cap_alloc.alloc<L4::Thread>(),
-                         "Allocate thread capability for new application.")),
-    _rm(L4Re::chkcap(L4Re::Util::cap_alloc.alloc<L4Re::Rm>(),
+  : _rm(L4Re::chkcap(L4Re::Util::cap_alloc.alloc<L4Re::Rm>(),
                      "Allocate region manager capability for new application.")),
     _parent(L4Re::chkcap(L4Re::Util::cap_alloc.alloc<L4Re::Parent>(),
                          "Allocate parent capability for new application.")),
+    _task(L4Re::chkcap(L4Re::Util::cap_alloc.alloc<L4::Task>(),
+                       "Allocate task capability for new application.")),
+    _thread(L4Re::chkcap(L4Re::Util::cap_alloc.alloc<L4::Thread>(),
+                         "Allocate thread capability for new application.")),
     _factory(L4Re::Env::env()->factory())
   {
     auto *e = L4Re::Env::env();
@@ -293,10 +293,11 @@ private:
   L4Re::Rm::Unique_region<char*> _stack_region;
   Dataspace _stack_ds;
 
-  L4Re::Util::Unique_del_cap<L4::Task> _task;
-  L4Re::Util::Unique_del_cap<L4::Thread> _thread;
+  // Declared before _task and _thread to outlive the running application.
   L4Re::Util::Unique_del_cap<L4Re::Rm> _rm;
   L4Re::Util::Unique_del_cap<L4Re::Parent> _parent;
+  L4Re::Util::Unique_del_cap<L4::Task> _task;
+  L4Re::Util::Unique_del_cap<L4::Thread> _thread;
   L4::Cap<L4::Factory> _factory;
   L4Re::Util::Shared_cap<void> _log;
 };
