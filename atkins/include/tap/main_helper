@@ -415,6 +415,8 @@ public:
   ~Partner()
   {
     join();
+    // Delete the task before the objects it uses are destroyed.
+    terminate();
   }
 
 private:
